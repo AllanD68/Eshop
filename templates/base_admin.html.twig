@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+		<link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+		<link href=" https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.css">
+
+		<link href="/css/style.css" rel="stylesheet">
+		<style>
+			td a {
+				color: black;
+			}
+			th a {
+				color: #b52929
+			}
+		</style>
+		<title>
+			{% block title %}ESHOP ADMIN
+			{% endblock %}
+		</title>
+
+	</head>
+
+	<body>
+
+
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert-{{label}} alert center">
+					{{ message }}
+					<button class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+			{% endfor %}
+		{% endfor %}
+
+
+		<div
+			class="d-flex" id="wrapper">
+
+			<!-- Sidebar -->
+			<div class="bg-light border-right" id="sidebar-wrapper">
+				<div class="sidebar-heading">
+					<a href="{{ path('admin_user_list') }}">PANNEAU ADMIN</a>
+				</div>
+				<div class="list-group list-group-flush">
+					<a href="{{ path('admin_user_list') }}" class="list-group-item list-group-item-action bg-light">Membres</a>
+					<a href="{{ path('admin_product_list') }}" class="list-group-item list-group-item-action bg-light">Produits</a>
+					<a href="{{ path('admin_purchase_list') }}" class="list-group-item list-group-item-action bg-light">Commandes</a>
+					<li>
+						<a href="{{path('review_list')}}" class="list-group-item list-group-item-action bg-light">Commentaires</a>
+					</li>
+					<div class="dropdown " id="drop-down">
+						<span>Filtre
+							<i class="fas fa-arrows-alt-v"></i>
+						</span>
+						<label>
+							<input type="checkbox" style="cursor: pointer;">
+							<ul>
+								<li><a href="{{path('genre_list')}}" class="list-group-item list-group-item-action bg-light">Genres</a></li>
+								<li><a href="{{path('category_list')}}" class="list-group-item list-group-item-action bg-light">Categories</a></li>
+								<li><a href="{{path('conceptor_list')}}" class="list-group-item list-group-item-action bg-light">Concepteurs</a></li>
+								<li><a href="{{path('platform_list')}}" class="list-group-item list-group-item-action bg-light">Plateformes</a></li>
+
+							</ul>
+						</label>
+					</div>
+
+				</div>
+			</div>
+			<!-- /#sidebar-wrapper -->
+
+			<!-- Page Content -->
+			<div id="page-content-wrapper">
+
+				<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+					<button id="menu-toggle">
+						<img src="/open-iconic-master/svg/resize-width.svg" style=" width: 1.5em">
+					</button>
+
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+							<li class="nav-item active">
+								<a class="nav-link btn btn-outline-warning" href="{{ path('accueil') }}">ESHOP<span class="sr-only">(current)</span>
+								</a>
+							</li>
+							<a class="dropdown-item" href="{{ path('security_logout') }}" style="color: red">Se deconnecter</a>
+						</ul>
+					</div>
+				</nav>
+
+
+				<!-- /#page-content-wrapper -->
+				<body>
+					{% block body %}
+						{% block contenu %}{% endblock %}
+					</body>
+				</div>
+			{% endblock %}
+		</body>
+	</body>
+</html></body></html></div><!-- /#wrapper -->{% block javascripts %}<!-- Bootstrap core JavaScript --><!-- Menu Toggle Script --><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.js"></script><script>$(document).ready(function () {
+$('.dropdown ul>li').click(function () {
+$('.dropdown ul>li').each(function () {
+$(this).removeClass('drop-selected');
+});
+$(this).toggleClass('drop-selected');
+$('.dropdown>span').text($(this).attr("val"))
+});
+});</script>
+<script>$("#menu-toggle").click(function (e) {
+e.preventDefault();
+$("#wrapper").toggleClass("toggled");
+});</script>
+<script>$('.custom-file-input').on('change', function (event) {
+var inputFile = event.currentTarget;
+$(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+});
+</script>
+{% endblock %}</body></html>

@@ -1,0 +1,30 @@
+{% extends 'base_admin.html.twig' %}
+
+
+{% block contenu %}
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">Nom</th>
+				<th scope="col">Prénom</th>
+				<th scope="col">Inscrit depuis le :</th>
+				<th scope="col">Email</th>
+				<th scope="col"></th>
+
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr>
+				<td scope="row">{{ user.name }}</td>
+				<td scope="row">{{ user.firstname}}</td>
+				<td scope="row">{{ user.InscriptionDate |  date('d/m/Y') }}</td>
+				<td scope="row">{{ user.email}}</td>
+				<td scope="row">
+					<a class="btn btn-outline-danger" href="{{ path('user_remove', {'id':user.id}) }}">Supprimer l'utilisateur</a>
+				</td>
+			</tr>
+		</tbody>
+	</tr>
+
+</tbody></table>{% endblock %}

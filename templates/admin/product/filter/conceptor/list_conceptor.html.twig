@@ -1,0 +1,38 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block contenu %}
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+
+			
+				<th scope="col">{{ knp_pagination_sortable(conceptors, 'Labelle' , 'cp.label') }}</th>
+				
+				<th scope="col">
+					<a class="btn btn-outline-success" href="{{ path('conceptor_add')}}">Ajouter un nouveau genre</a>
+				</th>
+<h1> CONCEPTEURS</h1>
+				{{ form_start(form, {attr: {class: 'filter'}} ) }}
+				<th scope="col">{{ form_row(form.q) }}</th>
+				<th scope="col"><button type="submit" class=" btn btn-primary">Rechercher</button></th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for conceptor in conceptors %}
+
+				<tr>
+					<td scope="row">{{conceptor.label }}</td>
+					 <td scope="row">
+						<a class="btn btn-outline-warning" href="{{ path('conceptor_edit', {'id':conceptor.id}) }}">Modifier</a>
+                        <a class="btn btn-outline-danger" href="{{ path('conceptor_remove', {'id':conceptor.id}) }}">Supprimer</a>
+					</td> 
+
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+	{{ knp_pagination_render(conceptors) }}
+{% endblock %}

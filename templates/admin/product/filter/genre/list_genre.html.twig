@@ -1,0 +1,38 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block contenu %}
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+
+			
+				<th scope="col">{{ knp_pagination_sortable(genres, 'Labelle' , 'g.label') }}</th>
+				
+				<th scope="col">
+					<a class="btn btn-outline-success" href="{{ path('genre_add')}}">Ajouter un nouveau genre</a>
+				</th>
+<h1> GENRES</h1>
+				{{ form_start(form, {attr: {class: 'filter'}} ) }}
+				<th scope="col">{{ form_row(form.q) }}</th>
+				<th scope="col"><button type="submit" class=" btn btn-primary">Rechercher</button></th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for genre in genres %}
+
+				<tr>
+					<td scope="row">{{genre.label }}</td>
+					 <td scope="row">
+						<a class="btn btn-outline-warning" href="{{ path('genre_edit', {'id':genre.id}) }}">Modifier</a>
+                        <a class="btn btn-outline-danger" href="{{ path('genre_remove', {'id':genre.id}) }}">Supprimer</a>
+					</td> 
+
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+	{{ knp_pagination_render(genres) }}
+{% endblock %}

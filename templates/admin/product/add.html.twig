@@ -1,0 +1,39 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block contenu %}
+
+	<a class="btn btn-outline-info" href="{{ path('admin_product_list')}}">Retour à la liste</a>
+	<h1 class="add_edit_h1">Ajout</h1>
+	<div class="form_add_edit">{{ form_start(formProduct) }}
+		<div class="form_add_edit_horizontal">{{ form_start(formProduct) }}
+			<div class="add_edit_left">
+				{{ form_row(formProduct.label )}}
+				{{ form_row(formProduct.description)}}
+				{{ form_row(formProduct.releaseDate)}}
+				{{ form_row(formProduct.stock)}}
+				{{ form_row(formProduct.price)}}
+				<h2>Images</h2>
+				<div class="add_edit_image">
+					{% for picture in product.pictures %}
+					<div class="add_edit_image_link">
+					<img src="{{ asset('/img/' ~ picture.link) }}" alt="Images" width="150px">
+					<a href="{{ path('delete_picture' , {id: picture.id})}}" data-delete data-token="{{ csrf_token('delete' ~ picture.id) }}">
+						Supprimer</a>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="add_edit_right">
+				{{form(formProduct)}}
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	{% block javascripts %}
+		<script src="{{ asset('js/images.js') }}"></script>
+
+	{% endblock %}
+
+{% endblock %}

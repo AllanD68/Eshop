@@ -1,0 +1,43 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block contenu %}
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+
+				<th scope="col">Nom</th>
+				<th scope="col">Prénom</th>
+				<th scope="col">{{ knp_pagination_sortable(users, 'Email' , 'u.email') }}</th>
+				<th scope="col">{{ knp_pagination_sortable(users, 'Date d\'inscription' , 'u.email') }}</th>
+				<th scope="col">Compte Activé</th>
+				{# <th scope="col">{{ knp_pagination_sortable(users, 'Inscript depuis le' , 'p.inscriptionDate') }}</th>
+				<th scope="col">{{ knp_pagination_sortable(users, 'Compte Activé' , 'p.activationToken') }}</th> #}
+				<th scope="col"></th>
+				
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in users %}
+
+				<tr>
+					<td scope="row">{{ user.name }}</td>
+					<td scope="row">{{ user.firstname}}</td>
+					<td scope="row">{{ user.email}}</td>
+					<td scope="row">{{ user.inscriptionDate |  date('d/m/Y') }}</td>
+                    {% if  not user.activationToken  %}
+                    <td scope="row">Activé</td>
+                    {% else %}
+                     <td scope="row">Non activé</td>
+                     {% endif %}
+					<td scope="row">
+						<a class="btn btn-outline-info" href="{{ path('user_show', {'id':user.id}) }}">Détails</a>
+					</td>
+			
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{{ knp_pagination_render(users) }}
+{% endblock %}

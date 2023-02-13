@@ -1,0 +1,87 @@
+
+<html>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<style>
+		body {
+			background: grey;
+			margin-top: 50px;
+			margin-bottom: 50px;
+		}
+		td {
+			text-align: center;
+		}
+	</style>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-body p-0">
+						<div class="row p-5">
+							<div class="col-md-6">
+								<img src="http://via.placeholder.com/400x90?text=logo">
+							</div>
+
+							<div class="col-md-6 text-right">
+								<h4>Commande passé le {{purchaseOrder.createdAt | date('d/m/Y')}} à  {{purchaseOrder.createdAt | date('H:i:s')}} </h4>
+							</div>
+						</div>
+
+						<hr class="my-5">
+
+						<div class="row pb-5 p-5">
+							<div class="col-md-6">
+								<h2>{{ title }} de la commande n°{{purchaseOrder.id}}</h2>
+								<p class="mb-1">
+									<h3> Mme/Mr {{purchaseOrder.user}}</h3>
+								</p>
+							</div>
+
+							<div class="col-md-6 text-right">
+							<h1>Lieu de livraison prévu :</h1>
+								<p>Ville: {{purchaseOrder.city}}</p>
+								<p> Code Postal: {{purchaseOrder.pc}}</p>
+								<p> Rue :{{purchaseOrder.adress}}</p>
+							</div>
+						</div>
+
+						<div class="row p-5">
+							<div class="col-md-12">
+								<table class="table">
+									<thead>
+										<tr>
+											<th class="border-0 text-uppercase small font-weight-bold">Produit numéro :</th>
+											<th class="border-0 text-uppercase small font-weight-bold">Nom du produit</th>
+											<th class="border-0 text-uppercase small font-weight-bold">Quantité</th>
+											<th class="border-0 text-uppercase small font-weight-bold">Prix unitaire</th>
+											<th class="border-0 text-uppercase small font-weight-bold">Total</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% set recaps =  purchaseOrder.purchaseOrderProducts %}
+										{% for recap in recaps %}
+										<tr>
+											<td>{{recap.products.id}}</td>
+											<td>{{recap.products.label}}</td>
+											<td>{{recap.qty}}</td>
+											<td>{{recap.products.price}} €</td>
+											{# {% set totalPerProd =  {{ recap.products.price * recap.qty }} %} #}
+											<td>{{ recap.products.price * recap.qty }} €</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+									<h2> Total : {{purchaseOrder.total}} €</h2>
+								</table>
+							</div>
+						</div>
+						<h1>MERCI DE VOTRE CONFIANCE</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</html>

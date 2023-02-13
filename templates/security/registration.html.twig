@@ -1,0 +1,87 @@
+{% extends 'base_without_search.html.twig' %}
+
+{% block body %}
+	<style>
+		label {
+			font-size: 0.85rem;
+			text-transform: uppercase;
+			color: #ccc;
+		}
+	</style>
+	<div id="formulaire_inscription">
+		<h1>Inscription</h1>
+
+
+		{# {{ form_row(form.name , {'label' : 'Nom' ,'attr': {'placeholder': 'Nom'}} )}}
+								{{ form_row(form.firstname , {'label' : 'Prénom' ,'attr': {'placeholder': 'Prénom'}})}}
+								{{ form_row(form.email , {'label' : 'Adresse mail' ,'attr': {'placeholder': 'Adresse mail'}})}}
+								{{ form_row(form.password , {'label' : 'Mot de passe' ,'attr': {'placeholder': 'Mot de passe'}})}}
+								{{ form_row(form.confirm_password , {'label' : 'Verification du Mot de passe' ,'attr': {'placeholder': 'Répétez votre mot de passe'}})}}  #}
+
+		<div class="signup__container">
+			<div
+				class="container__child signup__thumbnail">
+				{# <div class="thumbnail__logo">
+																	<h1 class="logo__text">Inscription</h1>
+																</div> #}
+				<div class="thumbnail__content text-center" style="margin: 0 0 auto;">
+					<h1 class="heading--primary">Bienvenue sur GAMEIFY !</h1>
+					<h2 class="heading--secondary">Le monde GEEK à portée de main</h2>
+				</div>
+			</div>
+			<div class="container__child signup__form">
+				<div class="form-group">
+					{{ form_start(form) }}
+					{# <label for="username">Username</label> #}
+					{{ form_row(form.name , {'label' : 'Nom' ,'attr': {'placeholder': 'Nom' , 'class' : 'form-input'}}
+					)}}
+				</div>
+				<div
+					class="form-group">
+					{# <label for="email">Email</label> #}
+					{{ form_row(form.firstname , {'label' : 'Prénom' ,'attr': {'placeholder': 'Prénom' , 'class' : 'form-input'}})}}
+				</div>
+				<div
+					class="form-group">
+					{# <label for="password">Password</label> #}
+					{{ form_row(form.email , {'label' : 'Adresse mail' ,'attr': {'placeholder': 'Adresse mail' , 'class' : 'form-input'} })}}
+				</div>
+				<div
+					class="form-group">
+					{# <label for="passwordRepeat">Repeat Password</label> #}
+					{{ form_row(form.password , {'label' : 'Mot de passe' ,'attr': {'placeholder': 'Mot de passe' , 'class' : 'form-input' , 'id' : 'password'}})}}
+					<div
+						class="form-group">
+						{# <label for="passwordRepeat">Repeat Password</label> #}
+						{{ form_row(form.confirm_password , {'label' : 'Verification du Mot de passe' ,'attr': {'placeholder': 'Répétez votre mot de passe' , 'class' : 'form-input' , 'id' : 'password'}})}}
+						<div>
+							<label for="checkbox"><input type="checkbox" id="checkbox">
+								Afficher le mot de passe
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="m-t-lg">
+					<ul class="list-inline">
+						<li>
+							{# <input class="btn btn--form" type="submit" value="Insciption" /> #}
+							<button type="submit" class="btn--form-registration" style=" margin-bottom: 2em;margin-top: 2em;">
+								Inscription
+							</button>
+							{{form_end(form)}}
+						</li>
+						<li>
+							<a class="signup__link" href="{{ path('security_login') }}">J'ai déjà un compte</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	{% block javascript %}
+		<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+		<script src="js/registration.js"></script>
+	{% endblock %}
+{% endblock %}

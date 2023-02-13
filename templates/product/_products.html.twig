@@ -1,0 +1,5 @@
+{# On rend un Json qui contient des chaines de caractères html #}
+{% for product in products %}
+{# On envoie seulement la liste les produits #}
+	{% include 'product/_card.html.twig' with {product: product} only %}
+{% endfor %}

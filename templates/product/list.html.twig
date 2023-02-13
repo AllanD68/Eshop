@@ -1,0 +1,38 @@
+{% extends 'base_without_search.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+
+	{# On balise la classe principal qui permet de mettre en place le filtre js #}
+	<div class="product_container js-filter">
+		<div
+			class="filter-scroll">
+			{# {% include 'product/_filter.html.twig' with {form: form, min: min, max: max} only %} #}
+			{% include 'product/_filter.html.twig'  %}
+
+		</div>
+		<div class="product_list">
+			{% if products | length() == 0 %}
+				<h1>
+					Aucun résultat pour votre recherche :(
+				</h1>
+			{% else %}
+				{# Changement d'ordre de l'organisation des contenus #}
+
+				<div class="filter_sorting js-filter-sorting">
+					{% include 'product/_sorting.html.twig' %}
+					{# {{ knp_pagination_sortable(products, 'Occasion' , 'p.new') }}	 #}
+
+				</div>
+				<div class="card_container js-filter-content">
+					{%  include 'product/_products.html.twig' %}
+				</div>
+				<div class="pagination js-filter-pagination">
+					{{ knp_pagination_render(products) }}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

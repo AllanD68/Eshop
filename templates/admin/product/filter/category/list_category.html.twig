@@ -1,0 +1,38 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block contenu %}
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+
+			
+				<th scope="col">{{ knp_pagination_sortable(categories, 'Labelle' , 'c.label') }}</th>
+				
+				<th scope="col">
+					<a class="btn btn-outline-success" href="{{ path('category_add')}}">Ajouter un nouveau genre</a>
+				</th>
+<h1> CATEGORIES</h1>
+				{{ form_start(form, {attr: {class: 'filter'}} ) }}
+				<th scope="col">{{ form_row(form.q) }}</th>
+				<th scope="col"><button type="submit" class=" btn btn-primary">Rechercher</button></th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for category in categories %}
+
+				<tr>
+					<td scope="row">{{category.label }}</td>
+					 <td scope="row">
+						<a class="btn btn-outline-warning" href="{{ path('category_edit', {'id':category.id}) }}">Modifier</a>
+                        <a class="btn btn-outline-danger" href="{{ path('category_remove', {'id':category.id}) }}">Supprimer</a>
+					</td> 
+
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+	{{ knp_pagination_render(categories) }}
+{% endblock %}

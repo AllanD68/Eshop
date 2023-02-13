@@ -1,0 +1,48 @@
+{% extends 'base_without_search.html.twig' %}
+
+
+{% block body %}
+
+	<h1 style="text-align: center; margin-top: 2em;">Choisir son lieu de livraison</h1>
+
+	<div class="container" id="container">
+		<div class="starter-template" style="width: 70%;margin: auto;margin-top: 3em;">
+
+
+			{{ form_start(formCoordinate) }}
+
+			{{ form_widget(formCoordinate.pc , { 'id': 'cp' }) }}
+			{{ form_row(formCoordinate.city  , { 'id': 'ville' }) }}
+			{{ form_row(formCoordinate.adress) }}
+
+			{# <div class="form-group">
+			<label for="cp">Code Postal</label>
+			<input type="text" name="cp" class="form-control" placeholder="Code postal" id="cp">
+			</div>
+			
+			<div class="form-group">
+			<label for="ville">Ville</label>
+			<select class="form-control" name="ville" id="ville"></select>
+			</div>
+			
+			<div class="form-group">
+			<label for="adresse">Adresse</label>
+			<input type="text" name="adresse" class="form-control" placeholder="Adresse (numéro de rue + nom de rue)" id="">
+			</div> #}
+
+
+			<button type="submit" class="btn btn-outline-success">Valider la commande</button>
+
+			{# {{ form_row(formCoordinate.submit) }} #}
+
+			{{ form_end(formCoordinate) }}
+
+		</div>
+	</div>
+	<!-- /.container -->
+
+
+	{# <p> {{ app.user.name  }}</p> #}
+
+
+{% endblock %}

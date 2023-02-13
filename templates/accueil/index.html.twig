@@ -1,0 +1,186 @@
+{% extends 'base.html.twig' %}
+
+{% block contenu %}
+	{# <h1 id="accueil">CECI EST UNE PAGE D'ACCUEIL</h1> #}
+
+
+	<div class="body-container">
+		<div class="showcase">
+			<h2>Surface Deals</h2>
+			<p>
+				Select Surfaces are on sale now - save while supplies last
+			</p>
+			<a href="#" class="btn">
+				Shop Now
+				<i class="fas fa-chevron-right"></i>
+			</a>
+		</div>
+
+		<!-- Home cards 1 -->
+		<section class="home-cards">
+			<div class="container text-center my-3">
+				<h2 class="font-weight-light">Les mieux Notés</h2>
+				<div class="row mx-auto my-auto">
+					<div id="recipeCarousel" class="carousel slide w-100" data-ride="carousel">
+						<div class="carousel-inner w-100" role="listbox">
+							{% if products is defined %}
+								{# {% set products = products.note %} #}
+								{% for product in products|slice(0, 10)  %}
+									<li data-target="#recipeCarousel" data-slide-to="{{ loop.index0 }}" {% if loop.index0 == 0 %} class="active" {% endif %}></li>
+								{% endfor %}
+								{% for product in products|slice(0, 10) %}
+									<div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
+										<div class="col-md-4">
+											{% include 'product/_card.html.twig' with {product: product} only %}
+										</div>
+									</div>
+								{% endfor %}
+							{% endif %}
+							<a class="carousel-control-prev w-auto" href="#recipeCarousel" role="button" data-slide="prev">
+								<span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="carousel-control-next w-auto" href="#recipeCarousel" role="button" data-slide="next">
+								<span class="carousel-control-next-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Xbox -->
+			<section class="xbox">
+				<div class="content">
+					<h2>Offre du Mois</h2>
+					<p>Call of Duty : Mordern Warfare</p>
+					<a href="#" class="btn">
+						Voir le produit
+						<i class="fas fa-chevron-right"></i>
+					</a>
+				</div>
+			</section>
+
+			<!-- Home cards 2 -->
+			<section class="home-cards">
+				<div class="container text-center my-3">
+				<h2 class="font-weight-light">Sorties récentes</h2>
+				<div class="row mx-auto my-auto">
+					<div id="recipeCarousel2" class="carousel slide w-100" data-ride="carousel">
+						<div class="carousel-inner w-100" role="listbox">
+							{% if productsDates is defined %}
+							{% set products = productsDates %}
+								{% for product in products|slice(0, 10)  %}
+									<li data-target="#recipeCarousel" data-slide-to="{{ loop.index0 }}" {% if loop.index0 == 0 %} class="active" {% endif %}></li>
+								{% endfor %}
+								{% for product in products|slice(0, 10) %}
+									<div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
+										<div class="col-md-4">
+											{% include 'product/_card.html.twig' with {product: product} only %}
+										</div>
+									</div>
+								{% endfor %}
+							{% endif %}
+							<a class="carousel-control-prev w-auto" href="#recipeCarousel2" role="button" data-slide="prev">
+								<span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="carousel-control-next w-auto" href="#recipeCarousel2" role="button" data-slide="next">
+								<span class="carousel-control-next-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</div>
+					</div>
+					{# <h5 class="mt-2">test</h5> #}
+				</div>
+			</section>
+
+			<!-- Carbon -->
+			<section class="carbon dark">
+				<div class="content">
+					<h2>Contactez nous !</h2>
+					<p>Une question sur un de nos produits ? Sur notre site ou autre ?</p>
+					<p>Un administrateur vous repondra dans les plus brefs délais !</p>
+					<a href="{{ path('contact') }}" class="btn">
+						Contact
+						<i class="fas fa-chevron-right"></i>
+					</a>
+				</div>
+			</section>
+
+			<!-- Follow -->
+			<section class="follow">
+				<p>Suivez Gameify</p>
+				<a href="https://facebook.com">
+					<img src="https://i.ibb.co/LrVMXNR/social-fb.png" alt="Facebook">
+				</a>
+				<a href="https://twitter.com">
+					<img src="https://i.ibb.co/vJvbLwm/social-twitter.png" alt="Twitter">
+				</a>
+				<a href="https://linkedin.com">
+					<img src="https://i.ibb.co/b30HMhR/social-linkedin.png" alt="Linkedin">
+				</a>
+			</section>
+		</div>
+		<!-- Links -->
+	  <section class="links">
+        <div class="links-inner">
+          <ul>
+            <li><h3>Lorem ipsum</h3></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+          </ul>
+          <ul>
+            <li><h3>Lorem ipsum</h3></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Download Center</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+          </ul>
+          <ul>
+            <li><h3>Lorem ipsum</h3></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+          </ul>
+          <ul>
+            <li><h3>Lorem ipsum</h3></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+          </ul>
+          <ul>
+            <li><h3>Lorem ipsum</h3></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+          </ul>
+          <ul>
+            <li><h3>Lorem ipsum</h3></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+            <li><a href="#">Lorem ipsum</a></li>
+          </ul>
+        </div>
+      </section>
+
+
+		<div>
+
+			{% block javascript %}
+				<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+				<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+			{% endblock %}
+		{% endblock %}

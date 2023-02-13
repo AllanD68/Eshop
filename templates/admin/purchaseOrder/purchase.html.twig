@@ -1,0 +1,77 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block contenu %}
+	<h1>Commandes</h1>
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+
+
+				<th scope="col">{{ knp_pagination_sortable(purchaseOrders, 'Numéro de commande' , 'po.id') }}</th>
+				<th scope="col">Commandé par :</th>
+				<th>Lieu de livraison :</th>
+				<th scope="col">Total de la commande :</th>
+				<th scope="col">{{ knp_pagination_sortable(purchaseOrders, 'Commande passé le:' , 'po.createdAt') }}</th>
+				<th scope="col">Contenu de la commande</th>
+				{{ form_start(form, {attr: {class: 'filter'}}
+				) }}
+				<th scope="col">{{ form_row(form.q,{ 'attr': {'placeholder' : 'Rech. n° de commande'}}) }}</th>
+				<th scope="col">
+					<button type="submit" class=" btn btn-primary">Rechercher</button>
+				</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for purchaseOrder in purchaseOrders %}
+
+				<tr>
+					<td scope="row">{{purchaseOrder.id }}</td>
+					{% if purchaseOrder.user.email is null %}
+					<td scope="row">
+						<a href="{{ path('user_show', {'id':purchaseOrder.user.id}) }}">{{purchaseOrder.user }}<em>( Profil supprimé )</em></a>
+					</td>
+					{% else %}
+					<td scope="row">
+						<a href="{{ path('user_show', {'id':purchaseOrder.user.id}) }}">{{purchaseOrder.user }}</a>
+					</td>
+					{% endif %}
+					<td scope="row">
+						<p>
+							<strong>Adresse
+							</strong>:
+							{{purchaseOrder.adress }}</p>
+						<p>
+							<strong>Code Postal</strong>
+							:
+							{{purchaseOrder.pc }}</p>
+						<p>
+							<strong>Ville</strong>
+							:
+							{{purchaseOrder.city }}</p>
+					</td>
+					<td scope="row">{{purchaseOrder.total }}
+						€
+					</td>
+					<td scope="row">{{purchaseOrder.createdAt | date('d/m/Y') }}
+						à
+						{{purchaseOrder.createdAt | date('H:i:s') }}</td>
+					{% set recaps =  purchaseOrder.purchaseOrderProducts %}
+
+					{% for recap in recaps %}{% endfor %}
+					<td scope="row">
+						{% for recap in recaps %}
+							<a href="{{ path('admin_product_show', {'id':recap.products.id}) }}">{{recap.products.label}} x {{recap.qty}}</a>
+						{% endfor %}
+					</td>
+
+					<td scope="row"></td>
+
+				</tr>
+			{% endfor %}
+		</tbody>
+	</tbody>
+</table>
+
+{{ knp_pagination_render(purchaseOrders) }}{% endblock %}

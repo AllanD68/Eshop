@@ -1,0 +1,49 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block contenu %}
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+
+			
+				{# <th scope="col">{{ knp_pagination_sortable(reviews, 'produit associé' , 'r.product') }}</th> #}
+                <th scope="col">avis</th>
+                <th scope="col">note</th>
+				<th scope="col">{{ knp_pagination_sortable(reviews, 'Commenté le' , 'r.created_at') }}</th>
+                <th scope="col">Auteur</th>
+                <th scope="col">Produit associé</th>
+
+             
+                <th scope="col"></th>
+<h1> CATEGORIES</h1>
+				{# {{ form_start(form, {attr: {class: 'filter'}} ) }} #}
+				{# <th scope="col">{{ form_row(form.q) }}</th> #}
+				<th scope="col"><button type="submit" class=" btn btn-primary">Rechercher</button></th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for review in reviews %}
+
+				<tr>
+					<td scope="row">{{review.comment }}</td>
+                    <td scope="row">{{review.note  }}</td>
+                    <td scope="row">{{review.createdAt | date('d/m/Y') }} à {{review.createdAt | date('H:i:s') }}</td>
+					{% if review.user is not null %}
+                    	<td scope="row"><a href="{{ path('user_show', {'id':review.user.id}) }}">{{review.user }}</td>
+					{% else %}
+					<td scope="row"><em>Profil supprimé</em></td>
+					{% endif %}
+                        <td scope="row">{{review.product.label }}</td>
+					<td scope="row">
+                        {# <a class="btn btn-outline-danger" href="{{ path('category_remove', {'id':category.id}) }}">Supprimer</a> #}
+					</td> 
+
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+	{{ knp_pagination_render(reviews) }}
+{% endblock %}

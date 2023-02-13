@@ -1,0 +1,51 @@
+{% block body %}
+
+	<div
+		class="card" id="product-{{ product.id }}">
+		{# <p class="text muted text-primay text-italic">{{ product.category }}</p> #}
+		<div class="img-content">
+			<a href="{{ path('product_show', {'id':product.id}) }}">
+				{% if product.pictures | length > 0 %}
+					{% for pic in product.pictures   %}
+						{% if loop.first %}
+							<img class="card-img-top" src="/img/{{ pic.link }}" alt="Card image cap">
+						{% endif %}
+					{% endfor %}
+				{% else %}
+					<img class="card-img-top" src="https://img.pixers.pics/pho_wat(s3:700/FO/20/02/61/90/6/700_FO200261906_baee67509f735343b904be81216032dd.jpg,700,700,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,480,650,jpg)/papiers-peints-licorne-mignon-avec-des-lunettes-de-soleil.jpg.jpg" alt="Card image cap">
+				{% endif %}
+			</a>
+		</div>
+		<div class="card-body">
+			<td>
+				<a href="{{ path('product_show', {'id':product.id}) }}" class="card-title text-bold">{{ product.label }}</a>
+			</td><br>
+			{# {% for g in product.genres %}
+										<em class="text muted text-primay text-italic">#{{ g.label }}</em>
+									{% endfor %} #}
+			{% for p in product.platforms %}
+				<em class="text muted text-primay text-italic">#{{ p.label }}</em>
+			{% endfor %}
+			<p class="text muted text-primay text-italic">#{{ product.conceptor }}</p>
+			<div class="card_separator"></div>
+			<td class="card-title">
+				<b style="font-size: 20px;">{{ product.price | number_format(0, '' , '')}}€
+				</b>|
+				{% if product.new == 1 %}
+					<b style=" color: green; font-size: 20px;">NEUF</b>
+				{% else %}
+					<b style=" color: darkorange; font-size: 20px;">OCCASION</b>
+				{% endif %}
+			</td>
+			<br>
+			{% if date() < date(product.releaseDate) %}
+				<a href="{{ path('cart_add' , {'id': product.id}) }}" class="btn btn-danger">Précommander</a>
+			{% else %}
+				<a href="{{ path('cart_add' , {'id': product.id}) }}" class="btn btn-danger">Ajouter au panier</a>
+			{% endif %}
+
+
+		</div>
+	</div>
+
+{% endblock %}

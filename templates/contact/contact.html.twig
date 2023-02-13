@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+
+	{{ form_start(ContactForm) }}
+	<div id="contact-form" class="form cf">
+		<h2 class="col-100">Comment pouvons nous vous aider ?</h2>
+
+		<div class="col cf">
+
+			<div class="form-row cf">
+				<label for="input-name">Nom: *</label>
+				{{ form_widget(ContactForm.firstname) }}
+			</div>
+
+			<div class="form-row cf">
+				<label for="input-phone">Numéro de téléphone (optionnel):</label>
+				{{ form_widget(ContactForm.phone) }}
+			</div>
+
+
+		</div>
+
+		<div class="col cf">
+
+
+			<div class="form-row cf">
+				<label for="input-company">Prénom: *</label>
+				{{ form_widget(ContactForm.lastname) }}
+			</div>
+
+			<div class="form-row cf">
+				<label for="input-email">Email: *</label>
+				{{ form_widget(ContactForm.email) }}
+			</div>
+
+		</div>
+
+		<div class="form-row col-100 cf">
+			<label for="textarea-message">Message: *</label>
+			{{ form_widget(ContactForm.message) }}
+		</div>
+
+		<div class="submit-contact form-row col-100 cf">
+			{{ form_widget(ContactForm.submit, { 'attr': { 'class' : 'btn btn-outline-danger'}}) }}
+		</div>
+	</div>
+	{{ form_end(ContactForm) }}
+
+{% endblock %}

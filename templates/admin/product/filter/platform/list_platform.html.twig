@@ -1,0 +1,38 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block contenu %}
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+
+			
+				<th scope="col">{{ knp_pagination_sortable(platforms, 'Labelle' , 'p.label') }}</th>
+				
+				<th scope="col">
+					<a class="btn btn-outline-success" href="{{ path('platform_add')}}">Ajouter un nouveau genre</a>
+				</th>
+<h1> PLATEFORMES</h1>
+				{{ form_start(form, {attr: {class: 'filter'}} ) }}
+				<th scope="col">{{ form_row(form.q) }}</th>
+				<th scope="col"><button type="submit" class=" btn btn-primary">Rechercher</button></th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for platform in platforms %}
+
+				<tr>
+					<td scope="row">{{platform.label }}</td>
+					 <td scope="row">
+						<a class="btn btn-outline-warning" href="{{ path('platform_edit', {'id':platform.id}) }}">Modifier</a>
+                        <a class="btn btn-outline-danger" href="{{ path('platform_remove', {'id':platform.id}) }}">Supprimer</a>
+					</td> 
+
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+	{{ knp_pagination_render(platforms) }}
+{% endblock %}

@@ -1,0 +1,329 @@
+{% extends 'base_without_search.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block contenu %}
+<style>
+.carousel-inner .carousel-item-right.active,
+.carousel-inner .carousel-item-next {
+    transform: translateX(100%);
+}
+
+.carousel-inner .carousel-item-left.active,
+.carousel-inner .carousel-item-prev {
+    transform: translateX(-100%);
+}
+</style>
+<div class="show">
+	<div class="img">
+		{% if product.pictures | length > 0 or product.pictures is null %}
+			<div id="carousel" class="carousel slide" data-ride="carousel">
+				<ol class="carousel-indicators">
+					{% for pic in product.pictures  %}
+						<li data-target="#carousel" data-slide-to="{{ loop.index0 }}" {% if loop.index0 == 0 %} class="active" {% endif %}></li>
+					{% endfor %}
+				</ol>
+				<div class="carousel-inner">
+					{% for pic in product.pictures  %}
+						<div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
+
+							<img class="d-block w-100" src="/img/{{ pic.link }}" alt="Card image cap">
+						</div>
+					{% endfor %}
+				</div>
+				<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		{% else %}
+			<img class="card-img-top" src="https://img.pixers.pics/pho_wat(s3:700/FO/20/02/61/90/6/700_FO200261906_baee67509f735343b904be81216032dd.jpg,700,700,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,480,650,jpg)/papiers-peints-licorne-mignon-avec-des-lunettes-de-soleil.jpg.jpg" alt="Card image cap">
+		{% endif %}
+		{# <h2>Note ({{ product.note / product.note|length }}) </h2> #}
+	</div>
+	<div class="resume">
+		<h1>{{product.label }}</h1>
+		<div class="bouton">
+			<a class="btn btn-info" href="{{ path('product_list')}}">Retour à la liste</a>
+			{% if  app.user and is_granted('ROLE_ADMIN') %}
+				<a class="btn btn-warning" href="{{ path('admin_product_show' , {'id':product.id}) }}">Voir en mode Admin</a>
+			{% endif %}
+		</div>
+		<h4>Description:</h4>
+		<p>{{ product.description }}</p>
+		<div>
+			<h4>Concepteur:</h4>
+			<p>{{ product.conceptor }}</p>
+			<h4>Categorie:</h4>
+			<p>{{ product.category }}</p>
+			{% if product.genres is not null %}
+				<h4>Genres</h4>
+				{% for g in product.genres %}
+					<em class="text muted text-primay text-italic">#{{ g.label }}</em>
+				{% endfor %}
+			{% endif %}
+			{% if product.platforms is not null %}
+				<h4>Plateformes</h4>
+				{% for p in product.platforms %}
+					<em class="text muted text-primay text-italic">#{{ p.label }}</em>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<h4>Date de sortie :</h4>
+		<p>{{ product.releaseDate |  date('d/m/Y')  }}</p>
+		<h4>En stock :</h4>
+		{% if  product.stock <= 0 %}
+			<p>produit non disponible , nous ne savons pas si/quand il sera reapprovisioné
+			</p>
+		{% else %}
+			<p>{{ product.stock}}</p>
+		{% endif %}
+		<h4>Prix :</h4>
+		{% if  product.stock <= 0 %}
+			<p>
+				/
+			</p>
+		{% else %}
+			<p>{{ product.price }}€</p>
+		{% endif %}
+		<h4>Etat :</h4>
+		{% if  product.new %}
+			<td scope="row">Neuf</td>
+		{% else %}
+			<td scope="row">Occasion</td>
+		{% endif %}
+		<h4>Notes des clients:</h4>
+		<div class="col">
+			{% include 'product/note.html.twig' with {'note': product.avgNote} %}
+			({{  product.avgNote|round(1,'common') }}/5)
+			<small>(Calculée sur
+				{{ product.reviews|length }}
+				avis)</small>
+		</div>
+		{# <form action="{{ path('cart_add' , {'id': product.id}) }}" method="GET">
+					<select name="qty" class="span1">
+					{% for i in 1..product.stock %}
+					<option value="{{ i }}">{{ i }}</option>
+					{% endfor %}
+					</select>
+				{% if date() < date(product.releaseDate) %}
+					<button type="submit" class="btn btn-primary">Précommander</button>
+				{% else %}
+					<button type="submit" class="btn btn-primary">Ajouter au panier</button>
+				{% endif %}
+				</form> #}
+		{% if  product.stock <= 0 %}
+			<h3>
+				<em>Indisponible</em>
+			</h3>
+		{% else %}
+			{% if date() < date(product.releaseDate) %}
+				<a href="{{ path('cart_add_show' , {'id': product.id}) }}" class="btn btn-danger">Précommander</a>
+			{% else %}
+				<a href="{{ path('cart_add_show' , {'id': product.id}) }}" class="btn btn-danger">Ajouter au panier</a>
+			{% endif %}
+		{% endif %}
+	</div>
+</div>
+{% if  app.user %}
+	{% set review = (product.reviewsFromAuthor(app.user)) %}
+	{% set pop = (product.purchaseFromAuthor(app.user)) %}
+{% endif %}
+
+
+
+{# <-----------------------------------------------------------SI LE PRODUIT EST PAS ENCORE SORTI-----------------------> #}
+
+{% if date() < date(product.releaseDate) %}
+	<div class="alert alert-light" style="
+		text-align: center;">
+		<h2 class="alert-heading">Impossible de donner son avis sur un produit non sorti</h2>
+	</div>
+{# <-----------------------------------------------------------SI LE USER N'A PAS ACHETÉ LE PRODUIT-----------------------> #}
+{# {% elseif app.user and pop.products.id != product.id %} #}
+{% elseif app.user and pop.products.id is not defined %}
+<div class="alert alert-light" style="text-align: center;">
+		<h2 class="alert-heading">Vous ne pouvez pas donner un avis sur un produit que vous n'avez pas acheté</h2>
+	</div>
+	<h4>Avis</h4>{% for reviews in product.reviews %}
+<div class="pagination-review">
+<div class="panel-body">
+	<ul class="list-group">
+		<li class="list-group-item">
+			<div class="row">
+				<div class="col-xs-2 col-md-1"></div>
+				<div class="col-xs-10 col-md-11">
+					<div>
+						<div class="mic-info">
+							Par:
+						{% if reviews.user is null %}
+								<em>Profil supprimé</em>
+							{% else %}
+								{{ reviews.user }}
+							{% endif %}
+								le
+								{{ reviews.createdAt |  date('d/m/Y')  }}
+								à
+								{{ reviews.createdAt |  date('H:i:s') }}</span>
+						</div>
+					</div>
+					<div class="comment-text">
+						<div>{{ reviews.comment }}</div>
+						<strong>Note :
+						</strong>
+						{% include 'product/note.html.twig' with {'note': reviews.note } %}
+					</div>
+				</div>
+			</div>
+		</li>
+			</div>
+		</li>
+	</ul>
+</div>
+</div>
+</div>
+{% endfor %}
+{# <-----------------------------------------------------------SI LE USER A DÉJA COMMENTÉ-----------------------> #}
+{% elseif app.user and review is not null %}
+	<div class="container">
+		<h4>Votre avis</h4>
+		<div class="panel-body">
+			<ul class="list-group">
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-2 col-md-1"></div>
+						<div class="col-xs-10 col-md-11">
+							<div>
+								<div class="mic-info">
+
+									le
+									{{ review.createdAt |  date('d/m/Y')  }}
+									à
+									{{ review.createdAt |  date('H:i:s') }}</span>
+							</div>
+						</div>
+						<div class="comment-text">
+							<div>{{ review.comment }}</div>
+							<strong>Note :
+							</strong>
+							{% include 'product/note.html.twig' with {'note': review.note } %}
+						</div>
+						<a href="{{ path('review_remove' , {'id': review.id}) }}"><p style="color: red;"> Supprimer mon commentaire</p><i class"fas fa-trash"></a>
+					</div>
+				</li>
+			</div>
+		</div>
+	</li>
+</li></ul><hr><h4>Avis</h4>{% for reviews in product.reviews %}
+<div class="pagination-review">
+<div class="panel-body">
+	<ul class="list-group">
+		<li class="list-group-item">
+			<div class="row">
+				<div class="col-xs-2 col-md-1"></div>
+				<div class="col-xs-10 col-md-11">
+					<div>
+						<div class="mic-info">
+							Par:
+							{% if reviews.user is null %}
+								<em>Profil supprimé</em>
+							{% else %}
+								{{ reviews.user }}
+							{% endif %}
+								le
+								{{ reviews.createdAt |  date('d/m/Y')  }}
+								à
+								{{ reviews.createdAt |  date('H:i:s') }}</span>
+						</div>
+					</div>
+					<div class="comment-text">
+						<div>{{ reviews.comment }}</div>
+						<strong>Note :
+						</strong>
+						{% include 'product/note.html.twig' with {'note': review.note } %}
+					</div>
+					<div class="review_remove"><i class"fa fas-trash"></button>
+				</div>
+			</div>
+		</li>
+			</div>
+		</li>
+</ul>
+</div>
+</div>
+</div>
+{% endfor %}
+{% if product.reviews | length > 5 %}
+<div id="pagination-container"></div>
+{% endif %}
+</div>
+</div>{# <------------------------------------------SI LE USER EST CONNECTÉ----------------------------------> #}
+{% elseif app.user %}
+<div class="container">
+<h2>Ajouter un avis</h2>
+{{ form(formReviews ,  {'id':product.id}) }}</div>
+
+{% for reviews in product.reviews %}
+<div class="pagination_review">
+<div class="panel-body">
+<ul class="list-group">
+	<li class="list-group-item">
+		<div class="row">
+			<div class="col-xs-2 col-md-1"></div>
+			<div class="col-xs-10 col-md-11">
+				<div>
+					<div class="mic-info">
+						Par:
+
+						<span>
+							{% if reviews.user is null %}
+								<em>Profil supprimé</em>
+							{% else %}
+								{{ reviews.user }}
+							{% endif %}
+							le
+							{{ reviews.createdAt |  date('d/m/Y')  }}
+							à
+							{{ reviews.createdAt |  date('H:i:s') }}</span>
+					</div>
+				</div>
+				<div class="comment-text">
+					<div>{{ reviews.comment }}</div>
+					<strong>Note :
+					</strong>
+					{% include 'product/note.html.twig' with {'note': reviews.note } %}
+				</div>
+				<div class="action"></button>
+			</div>
+		</div>
+	</li>
+</div></li></ul></div></div>
+</div>{% endfor %} {% if product.reviews | length > 7 %}
+<div id="pagination-container"></div>
+{% endif %}
+</div></div></div>{# <------------------------------------------SI LE USER N'EST PAS CONNECTÉ----------------------------------> #}
+{% elseif not app.user  %}
+<div class="alert alert-secondary" role="alert">
+<p><a href="{{ path('security_login') }}">Connectez vous</a> pour donner votre avis sur le produit !</p></div>
+{% for reviews in product.reviews %}
+<div class="pagination_review">
+<div class="panel-body"><ul class="list-group"><li class="list-group-item"><div class="row"><div class="col-xs-2 col-md-1"></div><div class="col-xs-10 col-md-11"><div><div class="mic-info">
+Par:
+{% if reviews.user is null %}
+<em>Profil supprimé</em>
+{% else %}
+{{ reviews.user }}
+{% endif %}
+	le
+	{{ reviews.createdAt |  date('d/m/Y')  }}
+	à
+	{{ reviews.createdAt |  date('H:i:s') }}</span></div></div><div class="comment-text"><div>{{ reviews.comment }}</div><strong>Note :</strong>{% include 'product/note.html.twig' with {'note': reviews.note } %}</div><divclass="action"></button></div></div></li></div></li></ul></div> </div></div>
+	{% endfor %}
+{% if product.reviews | length > 5 %}
+<div id="pagination-container"></div>
+{% endif %}
+	{% endif %} 
+	{% endblock %}

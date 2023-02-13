@@ -1,0 +1,43 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block contenu %}
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+
+				<th scope="col">Nom du produit</th>
+				<th scope="col">{{ knp_pagination_sortable(products, 'Stock' , 'p.stock') }}</th>
+				<th scope="col">État</th>
+				<th scope="col">
+					<a class="btn btn-outline-success" href="{{ path('product_add') }}">Ajouter un nouveau produit</a>
+				</th>
+
+				{{ form_start(form, {attr: {class: 'filter'}} ) }}
+				<th scope="col">{{ form_row(form.q) }}</th>
+				<th scope="col"><button type="submit" class=" btn btn-primary">Rechercher</button></th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for product in products %}
+
+				<tr>
+					<td scope="row">{{ product.label }}</td>
+					<td scope="row">{{ product.stock}}</td>
+					{% if  product.new %}
+						<td scope="row">Neuf</td>
+					{% else %}
+						<td scope="row">Occasion</td>
+					{% endif %}
+					<td scope="row">
+						<a class="btn btn-outline-info" href="{{ path('admin_product_show', {'id':product.id}) }}">Voir le produit</a>
+					</td>
+
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+	{{ knp_pagination_render(products) }}
+{% endblock %}

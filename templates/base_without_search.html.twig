@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"  >
+		
+		<link href="/css/style.css" rel="stylesheet">
+		<title>
+			{% block title %}ELAN
+			{% endblock %}
+		</title>
+		{% block stylesheets %}{% endblock %}
+		{{ encore_entry_link_tags('app') }}
+		{{ encore_entry_script_tags('app') | replace({'src=' : 'defer src='}) | raw }}
+	</head>
+	<header>
+		<nav
+			class="navbar navbar-dark bg-dark">
+			<!-- Navbar content -->
+			<div class="logo">
+			<a href="{{ path('accueil') }}"><img src="/img/logo-gameify.svg"></a>
+				<!-- /input-group -->
+			</div>
+		</div>
+
+		<div class="nav-link">
+
+			<a class="btn btn-outline-light" href="{{ path('accueil') }}">Accueil</a>
+
+
+			{# {% if  app.user and is_granted('ROLE_USER') %}
+							{# <a class="btn btn-outline-light" href="{{ path('product_list') }}">Nos produits</a>
+							<a class="btn btn-outline-light" href="{{ path('cart_index') }}">Mon panier</a>
+							<a class="btn btn-outline-light" href="{{ path('security_logout') }}">Deconnexion</a>
+							<a class="btn btn-outline-info" href="{{ path('stagiaire_profil') }}">Mon compte</a> #}
+		{% if  app.user and is_granted('ROLE_ANONYMOUS') %}
+					<a class="btn btn-outline-light" href="{{ path('product_list') }}">Nos produits</a>
+					<a class="btn btn-outline-light" href="{{ path('contact') }}"> <i class="fas fa-envelope" style="font-size: 25px;"></i></a>
+					{% if  app.session.get('cart')| length() > 0 %}
+						<a class="btn btn-outline-light" href="{{ path('cart_index') }}"><i class="fas fa-shopping-cart" style="font-size: 25px;"></i> ({{ app.session.get('cart')|reduce((product, qty) => product + qty) }})</a>
+					{% else %}
+						<a class="btn btn-outline-light" href="{{ path('cart_index') }}"><i class="fas fa-shopping-cart" style="font-size: 25px;"></i> (0)</a>
+					{% endif %}
+				{# <a class="btn btn-outline-light" href="{{ path('security_logout') }}">Deconnexion</a>
+										<a class="btn btn-outline-info" href="{{ path('user_profil') }}">Mon compte</a> #}
+					<div class="dropdown-home">
+						<button class="dropdown-homebtn">
+							<i class="fas fa-user-circle" style="font-size: 25px;"></i>
+							<i class="fas fa-angle-up caret-icon"></i>
+						</button>
+						<div class="dropdown-home-content">
+							<a href="{{ path('user_profil') }}">Mon compte</a>
+							<a href="{{path('purchase_list')}}">Historique de commande</a>
+							<tr>
+								<a style="color: red;" href="{{ path('security_logout') }}">se déconnecter</a>
+							</tr>
+						</div>
+					</div>
+				{% else  %}
+					<a class="btn btn-outline-light" href="{{ path('product_list') }}">Nos produits</a>
+					<a class="btn btn-outline-light" href="{{ path('contact') }}"> <i class="fas fa-envelope" style="font-size: 25px;"></i></a>
+					{% if  app.session.get('cart')| length() > 0 %}
+						<a class="btn btn-outline-light" href="{{ path('cart_index') }}"><i class="fas fa-shopping-cart" style="font-size: 25px;"></i> ({{ app.session.get('cart')|reduce((product, qty) => product + qty) }})</a>
+					{% else %}
+						<a class="btn btn-outline-light" href="{{ path('cart_index') }}"><i class="fas fa-shopping-cart" style="font-size: 25px;"></i>(0)</a>
+					{% endif %}
+					<a class="btn btn-outline-light" href="{{ path('security_login') }}">Connexion</a>
+					<a class="btn btn-outline-light" href="{{ path('security_registration') }}">Inscription</a>
+				{% endif %}
+				{% if  app.user and is_granted('ROLE_ADMIN') %}
+					<a class="btn btn-outline-warning" href="{{ path('admin_pannel') }}">GESTION</a>
+				{% endif %}
+		</div>
+	</nav>
+</header>{% for label, messages in app.flashes %}
+{% for message in messages %}
+	<div class="alert-{{label}} alert center">
+		{{ message }}
+		<button class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+{% endfor %}{% endfor %}<body>
+{% block body %}
+
+	{% block contenu %}{% endblock %}
+
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="{{ asset('js/geo/apigeo.js') }}"></script>
+	<script src="/js/pagination.js"></script>
+{% endblock %}</body></html>

@@ -1,0 +1,16 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block contenu %}
+ {% if editMode %}
+ <h1> edition </h1>
+ {% else %}
+  <h1> ajout </h1>
+   {% endif %}
+
+
+   {{ form_start(formGenre) }}
+   {{ form_widget(formGenre )}}
+   {{ form_end(formGenre )}}
+
+   {% endblock %}

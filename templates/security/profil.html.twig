@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+
+	<h1>Bienvenue sur votre compte
+		{{app.user.name  }}</h1>
+
+ {{ form_start(form) }}
+
+<div class="row">
+	<div class="col">
+		<div class="alert alert-light">
+			<h2 class="alert-heading">Informations générales</h2>
+			<hr>
+			{{ form_row(form.firstname) }}
+			{{ form_row(form.name) }}
+			{% if ( app.user.activationToken is not null)  and (app.user and is_granted('ROLE_ANONYMOUS'))  %}
+			{{ form_row(form.email) }} 
+			<div class="alert alert-danger" role="alert"><em>Votre email n'est pas activé si vous souhaitez renvoyer un mail <a href="{{ path('security_mail_token') }}">cliquez ici </em> <i style ="color: red;" class="fas fa-exclamation-triangle"></i>
+			{% else %}
+				{{ form_row(form.email) }} 
+			{% endif %}
+		</div>
+	</div>
+	<div class="col">
+		<div class="alert alert-light">
+			<h2 class="alert-heading">Détails</h2>
+			<hr>
+			<a href="{{path('edit_password' )}}">Modifier votre mot de passe</a>
+		</br>
+	</br>
+	<a style="color:red;"href="{{path('delete_user' ,{id: app.user.id })}}">Supprimer mon compte</a> <i style ="color: red;" class="fas fa-exclamation-triangle"></i>
+<br><br>
+	{# <a href="{{path('purchase_list')}}">Mon Historique de commande</a> #}
+
+	<hr>
+	<p>Si vous avez terminé vos modifications, vous pouvez les sauvegarder</p>
+	<button type="submit" class="btn btn-primary">
+		<i class="fas fa-check"></i>
+		Enregistrer les modifications
+	</button>
+</div></div></div>{{ form_end(form) }}</div>{% endblock %} 

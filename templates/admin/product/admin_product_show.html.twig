@@ -1,0 +1,80 @@
+{% extends 'base_admin.html.twig' %}
+
+
+{% block contenu %}
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Nom du produit</th>
+				<th scope="col">Date de Sortie:</th>
+				<th scope="col">Stock</th>
+				<th scope="col">Prix</th>
+				<th scope="col">Etat</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+	</th>
+
+</tr></thead><tbody>
+
+<tr>
+	<td scope="row">{{ product.id }}</td>
+	<td scope="row">{{ product.label }}</td>
+	<td scope="row">{{ product.releaseDate |  date('d/m/Y') }}</td>
+	<td scope="row">{{ product.stock}}</td>
+	<td scope="row">{{ product.price}}</td>
+	{% if  product.new %}
+		<td scope="row">Neuf</td>
+	{% else %}
+		<td scope="row">Occasion</td>
+	{% endif %}
+	<td scope="row">
+		<a class="btn btn-outline-warning" href="{{ path('product_edit', {'id':product.id}) }}">Modifier</a>
+	</td>
+	<td scope="row">
+		<a class="btn btn-outline-danger" href="{{ path('product_remove', {'id':product.id}) }}">Supprimer le produit</a>
+	</td>
+	<td scope="row">
+		<a class="btn btn-outline-info" href="{{ path('product_show', {'id':product.id}) }}">Voir en User</a>
+	</td>
+</tr></tbody></table>
+
+
+<h2>Avis sur le produit </h2>
+
+<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">Auteur</th>
+				<th scope="col">Commentaire</th>
+				<th scope="col">Note</th>
+				<th scope="col">Posté le:</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+	
+
+</tr></thead><tbody>
+
+{% for review in product.reviews %}
+<tr>
+		{% if review.user.email is defined %}	
+		<td scope="row"><a href="{{ path('user_show', {'id':review.user.id}) }}">{{ review.user }}</a></td>
+		{% else %}
+		<td scope="row"><em>Profil supprimé</em></td>
+		{% endif %}
+		<td scope="row">{{ review.comment }}</td>
+		<td scope="row">{{  review.note }}</td>
+		<td scope="row"> {{ review.createdAt |  date('d/m/Y H:i:s' ) }}</td>
+	   <td scope="row"><a class="btn btn-outline-danger" href="{{ path('review_remove_admin', {'id':review.id}) }}">Supprimer le commentaire</a></td>
+	    
+</tr>
+{% endfor %}
+
+</tbody></table>
+{% endblock %}
+
+

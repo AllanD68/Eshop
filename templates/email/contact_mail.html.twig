@@ -1,0 +1,73 @@
+<style>
+	body {
+		background: #f7f7f7;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100vh;
+		font-family: arial;
+	}
+
+	h2,
+	p {
+		font-size: 14px;
+		color: #1B1B1B;
+		font-weight: normal;
+	}
+
+	p {
+		line-height: 1.5;
+	}
+
+	.wrapper {
+		width: 600px;
+		height: 400px;
+		background: white;
+		padding: 40px;
+		box-sizing: border-box;
+		box-shadow: 0 3px 45px 0 rgba(0, 0, 0, 0.15);
+	}
+</style>
+<body>
+	<div class="wrapper">
+		<div class="example-text">
+			{{contact.message}}
+		</div>
+		<table cellpadding="0" cellspacing="0" border="0" style="font-family: arial; font-weight: 300; color: #1B1B1B;">
+			<tbody>
+				<tr>
+					<td style="width: 1px; height: 91px; padding: 0 12px 0 0; margin: 0; border-left: 1px solid #1B1B1B"></td>
+					<td>
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td style="font-family: arial;">
+										<span style="font-size: 16px; font-weight: bold">{{contact.firstname}}
+											{{contact.lastname}}
+										</span>
+									</td>
+									{% if contact.phone is defined %}
+										{{contact.phone}}
+									{% else %}
+									<p>Téléphone non renseigné</p>
+									{% endif %}
+								</tr>
+								<tr>
+									<td>
+										<table cellpadding="0" cellspacing="0" border="0">
+											<tbody>
+												<tr>
+													<span style="font-size: 12px; font-weight: normal; color: #595959;">{{contact.email}}</span>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</th>
+	</tr>
+</body></tbody></table></div></body>

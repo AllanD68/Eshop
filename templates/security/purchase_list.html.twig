@@ -1,0 +1,60 @@
+{% extends 'base_without_search.html.twig' %}
+
+{% block body %}
+<style> .sortable {
+	color: #900000;
+}
+</style>
+<h1 style= "text-align: center;
+margin-top: 1.5em;">Historique des commandes</h1>
+	{% if user.purchaseOrders | length > 0 %}
+		<table class="table" style="border: 2px solid; width: 95%; margin: auto; margin-top: 5em;">
+			<thead class="thead-dark">
+				<tr>
+
+					<th scope="col">N° de la commande</th>
+					<th scope="col">{{ knp_pagination_sortable(purchaseOrders, 'Date de la commande' , 'po.createdAt') }}</th>
+					<th scope="col">Total</th>
+					<th scope="col">Contenu de la commande</th>
+					<th scope="col">PDF de la commande</th>
+
+
+				</tr>
+			</thead>
+			<tbody>
+				{% for purchaseOrder in user.purchaseOrders %}
+
+					<tr>
+						<td scope="row">{{purchaseOrder.id}}</td>
+						<td scope="row">{{purchaseOrder.createdAt | date('d/m/Y')}}</td>
+						<td scope="row">{{purchaseOrder.total}}
+							€</td>
+						{% set recaps =  purchaseOrder.purchaseOrderProducts %}
+
+						{% for recap in recaps %}{% endfor %}
+						<td scope="row">
+							{% for recap in recaps %}
+								<a href="{{ path('product_show', {'id':recap.products.id}) }}">{{recap.products.label}}
+									x
+									{{recap.qty}}</a>
+							{% endfor %}
+						</td>
+
+						<td scope="row">
+							<a class="btn-floating btn-blue-grey" href="{{ path('purchase_pdf' , {'id':purchaseOrder.id}) }}">
+								<i class="fas  fa-arrow-alt-circle-down" style="color: #900000"></i>
+							</a>
+						</td>
+
+					</tr>
+				{% endfor %}
+
+			</tbody>
+		</table>
+		{{ knp_pagination_render(purchaseOrders) }}
+
+
+	{% else %}
+		<p style="font-size: 30px; margin-top: 5em; text-align: center;">Vous n'avez pas encore de commande chez nous :(</p>
+	{% endif %}
+{% endblock %}

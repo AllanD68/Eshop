@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+	<h1 style="text-align: center; margin-top: 2em;">Mon Panier</h1>
+
+	{% if items | length > 0%}
+
+
+
+<div class="container" style=" max-width: 85%; margin: 5em 10em;">
+  <table id="cart" class="table table-hover table-condensed">
+    <thead>
+      <tr>
+					<th>Produit
+					</th>
+					<th>Prix</th>
+					<th>Quantité</th>
+					<th>Total</th>
+					<th></th>
+				</tr>
+    </thead>
+    <tbody>
+	{% for item in items %}
+      <tr>
+        <td data-th="Product" style="">
+          <div class="row">
+		  {% if item.product.pictures | length > 0 %}
+					{% for pic in item.product.pictures   %}
+						{% if loop.first %}
+						<div class="col-sm-2 hidden-xs"><a href="{{ path('product_show', {'id':item.product.id}) }}"><img class="card-img-top" src="/img/{{ pic.link }}" alt="Card image cap" style="width: 100px;"></a></div>
+						{% endif %}
+					{% endfor %}
+			{% else %}	
+            <div class="col-sm-2 hidden-xs"><a href="{{ path('product_show', {'id':item.product.id}) }}"><img src="https://img.pixers.pics/pho_wat(s3:700/FO/20/02/61/90/6/700_FO200261906_baee67509f735343b904be81216032dd.jpg,700,700,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,150,150,jpg)/papiers-peints-licorne-mignon-avec-des-lunettes-de-soleil.jpg.jpg" alt="..." class="img-responsive"   style="width: 100px;" /></a></div>
+			{% endif %}
+            <div class="col-sm-10" style="margin: auto;">
+             <a href="{{ path('product_show', {'id':item.product.id}) }}">
+			{{ item.product.label }}</td>
+            </div>
+          </div>
+        </td>
+        <td data-th="Price">{{ item.product.price }}€</td>
+        <td data-th="Quantity">
+         	{% if item.product.stock == 0 %}
+				<div class="alert alert-danger" role="alert"><i style ="color: red;" class="fas fa-exclamation-triangle"></i>
+ 					 Ce produit n'est plus disponible</div>
+			{% elseif item.qty > item.product.stock %}	
+						{{ item.qty }} <i style ="color: orange;" class="fas fa-exclamation-triangle"></i>
+						<div class="alert alert-warning" role="alert">
+  						Vous avez trop de produit par rapport au stock</div>
+  			{% else %}
+						{{ item.qty }}
+						{% endif %}
+        </td>
+        <td data-th="Subtotal" class="text-center">{{ item.product.price * item.qty }}€</td>
+        <td class="actions" data-th="">
+          {# <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button> #}
+         <a href="{{ path('cart_remove' , {'id': item.product.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+        </td>
+      </tr>
+	  	{% endfor %}
+    </tbody>
+    <tfoot>
+      {# <tr class="visible-xs">
+        <td class="text-center"><strong>Total du panier {{ total }} €</strong></td>
+      </tr> #}
+      <tr>
+        <td><a href="{{ path('product_list')}}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continuer les achats</a></td>
+        <td colspan="2" class="hidden-xs"></td>
+        <td class="hidden-xs text-center"><strong>Total du panier {{ total }} €</strong></td>
+        <td><a class="btn btn-outline-danger" href="{{ path('cart_remove_full')}}">Vider le panier</a>
+		{% if   app.user and is_granted('ROLE_USER') or app.user and is_granted('ROLE_ADMIN') %}
+	<a class="btn btn-outline-success" href="{{ path('purchase_coordinate')}}">Valider la commande</a>
+	{% elseif app.user and is_granted('ROLE_ANONYMOUS') %}
+	<p style="color: red">Vous devez confirmer votre adresse mail pour terminer votre commande !</p>
+	{% else  %}
+	<p style="color: red">
+		<a style="text-decoration: underline ; color: red" href="{{ path('security_login') }}">Connectez vous</a> pour terminer votre commande !</p>
+	{% endif %}
+{% else  %}
+</td>
+      </tr>
+    </tfoot>
+  </table>
+
+<p style="text-align: center; margin-top: 2em;font-size: 50px;">
+	Votre panier est vide :(
+</p>
+</div>
+{% endif %}
+{% endblock %}
